@@ -483,7 +483,7 @@
       ],
       [
         "src/views/card/components/NewCommentForm.tsx",
-        68
+        85
       ]
     ],
     "translation": "Add comment... (type '/' to open commands or '@' to mention)"
@@ -495,7 +495,7 @@
     "origin": [
       [
         "src/components/Editor.tsx",
-        493
+        499
       ]
     ],
     "translation": "Add description... (type '/' to open commands or '@' to mention)"
@@ -8016,7 +8016,7 @@
       ],
       [
         "src/views/card/components/NewCommentForm.tsx",
-        37
+        38
       ],
       [
         "src/views/card/index.tsx",
@@ -9576,6 +9576,18 @@
     ],
     "translation": "Status"
   },
+  "hQRttt": {
+    "translation": "Submit",
+    "message": "Submit",
+    "placeholders": {},
+    "comments": [],
+    "origin": [
+      [
+        "src/views/card/components/NewCommentForm.tsx",
+        60
+      ]
+    ]
+  },
   "WYDptz": {
     "message": "Subscription Required",
     "placeholders": {},
@@ -10443,7 +10455,7 @@
     "origin": [
       [
         "src/views/card/components/NewCommentForm.tsx",
-        36
+        37
       ]
     ],
     "translation": "Unable to add comment"
