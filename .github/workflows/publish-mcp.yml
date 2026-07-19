@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # needed for npm provenance
 
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +46,6 @@ jobs:
       - name: Publish to npm
         run: |
           cd packages/mcp
-          pnpm publish --provenance --access public
+          pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
