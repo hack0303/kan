@@ -1,7 +1,7 @@
 {
   "name": "@hack0303/kan-mcp",
-  "version": "0.1.1",
-    "description": "MCP server for Kan — control workspaces, boards, lists, and cards via AI",
+  "version": "0.1.2",
+  "description": "MCP server for Kan — control workspaces, boards, lists, and cards via AI",
   "type": "module",
   "bin": {
     "kan-mcp": "./dist/index.js"
