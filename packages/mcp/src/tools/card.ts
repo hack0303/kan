@@ -116,10 +116,10 @@ export function registerCardTools(server: McpServer): void {
     "Add a comment to a card",
     {
       cardPublicId: z.string().describe("The card's public ID"),
-      content: z.string().describe("Comment text"),
+      comment: z.string().min(1).describe("Comment text"),
     },
-    async ({ cardPublicId, content }) => {
-      const data = await kanRequest("POST", `/cards/${cardPublicId}/comments`, { content });
+    async ({ cardPublicId, comment }) => {
+      const data = await kanRequest("POST", `/cards/${cardPublicId}/comments`, { comment });
       return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
     },
   );
@@ -130,13 +130,13 @@ export function registerCardTools(server: McpServer): void {
     {
       cardPublicId: z.string().describe("The card's public ID"),
       commentPublicId: z.string().describe("The comment's public ID"),
-      content: z.string().describe("New comment text"),
+      comment: z.string().min(1).describe("New comment text"),
     },
-    async ({ cardPublicId, commentPublicId, content }) => {
+    async ({ cardPublicId, commentPublicId, comment }) => {
       const data = await kanRequest(
         "PUT",
         `/cards/${cardPublicId}/comments/${commentPublicId}`,
-        { content },
+        { comment },
       );
       return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
     },

@@ -22,11 +22,11 @@ export function registerBoardTools(server: McpServer): void {
     },
     async ({ workspaceName, boardName }) => {
       const workspaces = await kanRequest<{ publicId: string; name: string }[]>("GET", "/workspaces");
-      const workspace = workspaces.find(
-        (w) => w.name.toLowerCase() === workspaceName.toLowerCase(),
+      const workspace = (workspaces ?? []).find(
+        (w) => w.name?.toLowerCase() === workspaceName.toLowerCase(),
       );
       if (!workspace) {
-        const names = workspaces.map((w) => w.name).join(", ");
+        const names = (workspaces ?? []).map((w) => w.name).join(", ");
         return {
           content: [
             {
@@ -40,11 +40,11 @@ export function registerBoardTools(server: McpServer): void {
         "GET",
         `/workspaces/${workspace.publicId}/boards`,
       );
-      const board = boards.find(
-        (b) => b.name.toLowerCase() === boardName.toLowerCase(),
+      const board = (boards ?? []).find(
+        (b) => b.name?.toLowerCase() === boardName.toLowerCase(),
       );
       if (!board) {
-        const names = boards.map((b) => b.name).join(", ");
+        const names = (boards ?? []).map((b) => b.name).join(", ");
         return {
           content: [
             {
@@ -91,21 +91,24 @@ export function registerBoardTools(server: McpServer): void {
 
   server.tool(
     "create_board",
-    "Create a new board in a workspace",
+    "Create a new board in a workspace with its initial lists and labels",
     {
       workspacePublicId: z.string().describe("The workspace's public ID"),
       name: z.string().describe("Board name"),
-      slug: z.string().optional().describe("URL-friendly slug (auto-generated if omitted)"),
-      visibility: z
-        .enum(["public", "private"])
-        .optional()
-        .describe("Board visibility (default: private)"),
+      lists: z
+        .array(z.string().min(1))
+        .nonempty()
+        .describe("Initial list names (e.g. ['To Do', 'In Progress', 'Done'])"),
+      labels: z
+        .array(z.string().min(1))
+        .nonempty()
+        .describe("Initial label names (e.g. ['Bug', 'Feature', 'Urgent'])"),
     },
-    async ({ workspacePublicId, name, slug, visibility }) => {
+    async ({ workspacePublicId, name, lists, labels }) => {
       const data = await kanRequest("POST", `/workspaces/${workspacePublicId}/boards`, {
         name,
-        slug,
-        visibility,
+        lists,
+        labels,
       });
       return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
     },

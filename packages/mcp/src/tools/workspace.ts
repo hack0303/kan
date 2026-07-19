@@ -19,11 +19,11 @@ export function registerWorkspaceTools(server: McpServer): void {
     { name: z.string().describe("Workspace name to search for") },
     async ({ name }) => {
       const workspaces = await kanRequest<{ publicId: string; name: string }[]>("GET", "/workspaces");
-      const match = workspaces.find(
-        (w) => w.name.toLowerCase() === name.toLowerCase(),
+      const match = workspaces?.find(
+        (w) => w.name?.toLowerCase() === name.toLowerCase(),
       );
       if (!match) {
-        const names = workspaces.map((w) => w.name).join(", ");
+        const names = (workspaces ?? []).map((w) => w.name).join(", ");
         return {
           content: [
             {
@@ -49,10 +49,28 @@ export function registerWorkspaceTools(server: McpServer): void {
 
   server.tool(
     "get_workspace_by_slug",
-    "Get a workspace by its slug, including its boards",
+    "Get a workspace by its slug. Use this when you know the URL slug rather than the publicId. Calls find_workspace_by_name under the hood since the API resolves slugs to workspaces.",
     { workspaceSlug: z.string().describe("The workspace slug") },
     async ({ workspaceSlug }) => {
-      const data = await kanRequest("GET", `/workspaces/${workspaceSlug}`);
+      // The API's byId and bySlug share the same HTTP path, so resolve via listing
+      const workspaces = await kanRequest<{ publicId: string; name: string; slug?: string }[]>(
+        "GET",
+        "/workspaces",
+      );
+      const match = workspaces?.find(
+        (w) => (w.slug ?? "").toLowerCase() === workspaceSlug.toLowerCase(),
+      );
+      if (!match) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `No workspace found with slug "${workspaceSlug}".`,
+            },
+          ],
+        };
+      }
+      const data = await kanRequest("GET", `/workspaces/${match.publicId}`);
       return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
     },
   );
