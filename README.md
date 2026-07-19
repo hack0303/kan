@@ -232,13 +232,13 @@ Kan ships with a [Model Context Protocol](https://modelcontextprotocol.io) (MCP)
 You do **not** need to clone this repository. The recommended way is to use `npx`, which runs the server on-demand and always uses the latest version — no global install required:
 
 ```bash
-npx -y @kan/mcp
+npx -y @hack0303/kan-mcp
 ```
 
 Alternatively, install it globally:
 
 ```bash
-npm install -g @kan/mcp
+npm install -g @hack0303/kan-mcp
 kan-mcp
 ```
 
@@ -261,7 +261,7 @@ Add the following to your VS Code `mcp.json` (open it via **MCP: Open User MCP C
     "kan": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@kan/mcp"],
+      "args": ["-y", "@hack0303/kan-mcp"],
       "env": {
         "KAN_BASE_URL": "https://your-kan-instance.com",
         "KAN_API_TOKEN": "kan_your_api_key_here"
@@ -282,7 +282,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
   "mcpServers": {
     "kan": {
       "command": "npx",
-      "args": ["-y", "@kan/mcp"],
+      "args": ["-y", "@hack0303/kan-mcp"],
       "env": {
         "KAN_BASE_URL": "https://your-kan-instance.com",
         "KAN_API_TOKEN": "kan_your_api_key_here"
